@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modern Multi-Step Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="public/style.css" />
+</head>
+<body>
+  <div class="background-animation" aria-hidden="true">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+  <div class="container" id="formContainer" role="form" aria-labelledby="formTitle">
+    <h1 id="formTitle">Registration Wizard</h1>
+    <div class="progress-bar" aria-label="Form steps progress">
+      <div class="step-indicator active" aria-current="step">1</div>
+      <div class="step-indicator" aria-current="false">2</div>
+      <div class="step-indicator" aria-current="false">3</div>
+      <div class="step-indicator" aria-current="false">4</div>
+    </div>
+    <div class="step-progress-message" id="stepMessage" aria-live="polite"></div>
+    <form id="multiStepForm" novalidate>
+      <div class="form-step" id="step1">
+        <h2>👤 Personal Info</h2>
+        <input type="text" name="name" placeholder="Full Name" required autocomplete="name" aria-required="true" />
+        <input type="date" name="dob" placeholder="Date of Birth" required autocomplete="bday" aria-required="true" />
+        <div class="btn-group">
+          <button type="button" class="btn next-btn">Next</button>
+        </div>
+      </div>
+      <div class="form-step hidden" id="step2">
+        <h2>📞 Contact Details</h2>
+        <input type="email" name="email" placeholder="Email Address" required autocomplete="email" aria-required="true" />
+        <input type="tel" name="phone" placeholder="Phone Number" required autocomplete="tel" aria-required="true" />
+        <div class="btn-group">
+          <button type="button" class="btn back-btn">Back</button>
+          <button type="button" class="btn next-btn">Next</button>
+        </div>
+      </div>
+      <div class="form-step hidden" id="step3">
+        <h2>🎯 Preferences</h2>
+        <div class="step3-content">
+          <label for="interests" class="select-label">Select Interest</label>
+          <select name="interests" id="interests" required aria-required="true" aria-describedby="subscribePopup">
+            <option value="" disabled selected>Select Interest</option>
+            <option value="tech">Technology</option>
+            <option value="sports">Sports</option>
+            <option value="art">Art</option>
+          </select>
+          <input type="checkbox" id="newsletter" name="newsletter" class="hidden" />
+          <button type="button" id="subscribeBtn" class="subscribe-btn" aria-pressed="false" aria-describedby="subscribePopup" aria-label="Subscribe to newsletter">
+            Subscribe to newsletter
+          </button>
+          <div id="subscribePopup" role="alert" aria-live="assertive"></div>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn back-btn">Back</button>
+          <button type="button" class="btn next-btn">Next</button>
+        </div>
+      </div>
+      <div class="form-step hidden" id="step4">
+        <h2>✅ Review & Submit</h2>
+        <p>Please review your information before submitting.</p>
+        <div id="reviewBox" style="background: #f9f9f9; padding: 15px; border-radius: 10px; box-shadow: 0 0 6px #ccc; color: #222; margin-bottom: 20px; font-size: 16px;"></div>
+        <div class="btn-group">
+          <button type="button" class="btn back-btn">Back</button>
+          <button type="submit" class="btn submit-btn">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="typingPopup" class="typing-popup hidden" aria-live="polite">You're typing...</div>
+  <div id="stepOverlay" class="step-overlay"></div>
+  <div id="thankYouScreen" aria-live="polite" role="alert" tabindex="-1">🎉 Thank you for registering! 🎉</div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script src="form-script.js"></script>
+</body>
+</html>
