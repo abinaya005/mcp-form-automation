@@ -1,6 +1,7 @@
 const axios = require('axios');
 
-const BASE_URL = 'https://mcp-form-automation.onrender.com';
+const BASE_URL = 'http://localhost:3000';  // ✅ For local testing
+
 
 // Retry logic to wait until the server is awake
 async function waitForServerReady(retries = 10) {
