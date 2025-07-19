@@ -1,15 +1,15 @@
 const axios = require('axios');
 
-// 🌐 Localhost for testing locally
-const BASE_URL = 'http://localhost:3000';
+// 🌐 Replace with your deployed Render URL
+const BASE_URL = 'https://mcp-form-automation.onrender.com';
 
-// ⏳ Retry logic to wait until the server is live
+// ⏳ Retry logic to wait until the Render server is awake
 async function waitForServerReady(retries = 10) {
   for (let i = 0; i < retries; i++) {
     try {
-      const res = await axios.get(`${BASE_URL}/test-form.html`);
+      const res = await axios.get(`${BASE_URL}/index.html`);
       if (res.status === 200) {
-        console.log("✅ Local server is ready!");
+        console.log("✅ Render server is ready!");
         return;
       }
     } catch (e) {
@@ -24,15 +24,17 @@ async function waitForServerReady(retries = 10) {
   try {
     await waitForServerReady();
 
+    // Launch browser
     await axios.post(`${BASE_URL}/start`);
     console.log("✅ Browser launched.");
 
+    // Go to form page
     await axios.post(`${BASE_URL}/goto`, {
-      url: `${BASE_URL}/test-form.html`
+      url: `${BASE_URL}/index.html`
     });
     console.log("✅ Navigated to the form.");
 
-    // ✅ Step 1 – Personal Info
+    // Step 1 – Personal Info
     await axios.post(`${BASE_URL}/fill`, {
       selector: 'input[name="name"]',
       value: 'Abinaya Ananthan'
@@ -46,7 +48,7 @@ async function waitForServerReady(retries = 10) {
     });
     console.log("✅ Step 1 completed.");
 
-    // ✅ Step 2 – Contact Details
+    // Step 2 – Contact Details
     await axios.post(`${BASE_URL}/fill`, {
       selector: 'input[name="email"]',
       value: 'abinaya@example.com'
@@ -60,10 +62,7 @@ async function waitForServerReady(retries = 10) {
     });
     console.log("✅ Step 2 completed.");
 
-    // ✅ Step 3 – Preferences
-    await axios.post(`${BASE_URL}/click`, {
-      selector: 'select[name="interests"]'
-    }); // open dropdown
+    // Step 3 – Preferences
     await axios.post(`${BASE_URL}/fill`, {
       selector: 'select[name="interests"]',
       value: 'tech'
@@ -76,7 +75,7 @@ async function waitForServerReady(retries = 10) {
     });
     console.log("✅ Step 3 completed.");
 
-    // ✅ Step 4 – Submit
+    // Step 4 – Submit
     await axios.post(`${BASE_URL}/click`, {
       selector: '#step4 .submit-btn'
     });
