@@ -1,9 +1,10 @@
 const express = require("express");
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core"); // ✅ use puppeteer-core
+const chromium = require("@sparticuz/chromium"); // ✅ chromium for headless on Render
 const path = require("path");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // ✅ important for Render
 
 let browser, page;
 
@@ -14,7 +15,11 @@ app.use(express.static(__dirname));
 app.use(express.json());
 
 app.post("/start", async (req, res) => {
-  browser = await puppeteer.launch({ headless: false });
+  browser = await puppeteer.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath(),
+    headless: chromium.headless,
+  });
   page = await browser.newPage();
   res.send("✅ Browser launched");
 });
@@ -41,5 +46,5 @@ app.post("/click", async (req, res) => {
 
 // 🚀 Start server
 app.listen(port, () => {
-  console.log(`🌐 MCP + Static Server running at http://localhost:${port}/test-form.html`);
+  console.log(`🌐 MCP + Static Server running at http://localhost:${port}/index.html`);
 });
